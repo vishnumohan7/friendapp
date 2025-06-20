@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:friend_app/constants/textstyles.dart';
+import 'package:friend_app/core/textstyles.dart';
 
 class ContactCard extends StatelessWidget {
   final String name;
