@@ -1,9 +1,10 @@
+import 'package:feme/core/theme.dart';
+import 'package:feme/providers/auth_provider.dart';
+import 'package:feme/routes/routes.dart' as routes;
+import 'package:feme/widgets/custom_text_field.dart';
+import 'package:feme/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
-import 'package:friend_app/core/theme.dart';
-import 'package:friend_app/providers/auth_provider.dart';
-import 'package:friend_app/routes/routes.dart' as routes;
-import 'package:friend_app/widgets/custom_text_field.dart';
-import 'package:friend_app/widgets/primary_button.dart';
+
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {

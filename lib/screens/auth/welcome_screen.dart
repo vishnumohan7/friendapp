@@ -1,7 +1,7 @@
+import 'package:feme/core/theme.dart';
+import 'package:feme/routes/routes.dart' show AppRoutes;
 import 'package:flutter/material.dart';
-import 'package:friend_app/core/theme.dart';
-import 'package:friend_app/routes/routes.dart';
-import 'package:friend_app/widgets/gradient_button.dart';
+
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});

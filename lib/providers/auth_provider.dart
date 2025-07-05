@@ -1,8 +1,7 @@
+import 'package:feme/routes/routes.dart' as routes;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:friend_app/routes/routes.dart' as routes;
-import 'package:friend_app/screens/customer/dashboard_screen.dart';
-import 'package:friend_app/screens/executive/executive_dashboard.dart';
+
 
 class AuthProvider with ChangeNotifier {
   bool _isLoading = false;

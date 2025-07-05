@@ -1,8 +1,9 @@
+import 'package:feme/core/theme.dart';
+import 'package:feme/routes/routes.dart';
+import 'package:feme/widgets/custom_text_field.dart';
+import 'package:feme/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
-import 'package:friend_app/core/theme.dart';
-import 'package:friend_app/routes/routes.dart';
-import 'package:friend_app/widgets/custom_text_field.dart';
-import 'package:friend_app/widgets/primary_button.dart';
+
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -275,14 +276,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         const SizedBox(height: 32),
                         // Sign Up Button
-                        ElevatedButton(
+                        PrimaryButton(
                           onPressed: _isLoading ? null : _signup,
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
                           child: _isLoading
                               ? const SizedBox(
                                   width: 24,

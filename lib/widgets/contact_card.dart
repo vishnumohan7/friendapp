@@ -1,11 +1,12 @@
+import 'package:feme/core/textstyles.dart';
 import 'package:flutter/material.dart';
-import 'package:friend_app/core/textstyles.dart';
 
 class ContactCard extends StatelessWidget {
   final String name;
   final String role;
   final String imageUrl;
-  final VoidCallback onCall;
+  final VoidCallback onAudioCall;
+  final VoidCallback onVideoCall;
   final bool isOnline;
   final bool isFavorite;
 
@@ -14,10 +15,53 @@ class ContactCard extends StatelessWidget {
     required this.name,
     required this.role,
     required this.imageUrl,
-    required this.onCall,
+    required this.onAudioCall,
+    required this.onVideoCall,
     this.isOnline = false,
     this.isFavorite = false,
   });
+
+  void _showCallOptions(BuildContext context, Offset buttonOffset) {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        buttonOffset.dx,
+        buttonOffset.dy,
+        overlay.size.width - buttonOffset.dx,
+        overlay.size.height - buttonOffset.dy,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      items: [
+        PopupMenuItem(
+          value: 'audio',
+          child: Row(
+            children: const [
+              Icon(Icons.call, color: Colors.blue),
+              SizedBox(width: 8),
+              Text('Audio Call'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'video',
+          child: Row(
+            children: const [
+              Icon(Icons.videocam, color: Colors.deepPurple),
+              SizedBox(width: 8),
+              Text('Video Call'),
+            ],
+          ),
+        ),
+      ],
+    ).then((value) {
+      if (value == 'audio') {
+        onAudioCall();
+      } else if (value == 'video') {
+        onVideoCall();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +77,7 @@ class ContactCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Profile Image with status dot
+          /// Profile Image with status
           Stack(
             children: [
               ClipRRect(
@@ -63,7 +107,7 @@ class ContactCard extends StatelessWidget {
           ),
           const SizedBox(width: 10),
 
-          // Name and role
+          /// Name and Role
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,24 +118,32 @@ class ContactCard extends StatelessWidget {
             ),
           ),
 
-          // Star Icon
+          /// Favorite Icon
           Icon(
             Icons.star,
             color: isFavorite ? Colors.amber : Colors.grey.shade400,
           ),
           const SizedBox(width: 8),
 
-          // Call Button
-          ElevatedButton.icon(
-            onPressed: onCall,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            icon: const Icon(Icons.call, size: 18),
-            label: const Text("Call"),
+          /// Call Button (with floating popup)
+          Builder(
+            builder: (context) {
+              return ElevatedButton.icon(
+                onPressed: () {
+                  final RenderBox button = context.findRenderObject() as RenderBox;
+                  final Offset offset = button.localToGlobal(Offset.zero);
+                  _showCallOptions(context, offset);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                icon: const Icon(Icons.call, size: 18),
+                label: const Text("Call"),
+              );
+            },
           ),
         ],
       ),

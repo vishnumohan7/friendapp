@@ -1,11 +1,16 @@
+import 'package:feme/screens/auth/forgot_password_screen.dart';
+import 'package:feme/screens/auth/login_screen.dart';
+import 'package:feme/screens/auth/signup_screen.dart';
+import 'package:feme/screens/auth/welcome_screen.dart';
+import 'package:feme/screens/customer/coins_screen.dart';
+import 'package:feme/screens/customer/dashboard_screen.dart';
+import 'package:feme/screens/customer/executive_list_screen.dart';
+import 'package:feme/screens/customer/profile_screen.dart';
+import 'package:feme/screens/customer/report_screen.dart';
+import 'package:feme/screens/customer/transaction_summary_screen.dart';
+import 'package:feme/screens/executive/executive_dashboard.dart';
 import 'package:flutter/material.dart';
-import 'package:friend_app/screens/auth/welcome_screen.dart';
-import 'package:friend_app/screens/auth/login_screen.dart';
-import 'package:friend_app/screens/auth/signup_screen.dart';
-import 'package:friend_app/screens/auth/forgot_password_screen.dart';
-import 'package:friend_app/screens/customer/coins_screen.dart';
-import 'package:friend_app/screens/customer/dashboard_screen.dart';
-import 'package:friend_app/screens/executive/executive_dashboard.dart';
+
 
 class AppRoutes {
   static const String welcome = '/';
@@ -14,7 +19,11 @@ class AppRoutes {
   static const String forgotPassword = '/forgot-password';
   static const String customerDashboard = '/customer-dashboard';
   static const String executiveDashboard = '/executive-dashboard';
+  static const String executives = '/executives';
   static const String coins = '/coins';
+  static const String reports = '/reports';
+  static const String profile = '/profile';
+  static const String transactionSummary = '/transaction-summary';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -36,6 +45,14 @@ class AppRoutes {
         );
       case coins:
         return MaterialPageRoute(builder: (_) => const CoinsScreen());
+      case executives:
+        return MaterialPageRoute(builder: (_) => const ExecutiveListScreen());
+      case reports:
+        return MaterialPageRoute(builder: (_) => const ReportScreen());
+      case profile:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case transactionSummary:
+        return MaterialPageRoute(builder: (_) => const TransactionSummaryScreen());
 
       default:
         return MaterialPageRoute(

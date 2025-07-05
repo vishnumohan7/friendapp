@@ -1,7 +1,10 @@
+import 'package:feme/core/theme.dart';
+import 'package:feme/providers/auth_provider.dart';
+import 'package:feme/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:friend_app/core/theme.dart';
-import 'package:friend_app/providers/auth_provider.dart';
-import 'package:friend_app/routes/routes.dart';
+// import 'package:friend_app/core/theme.dart';
+// import 'package:friend_app/providers/auth_provider.dart';
+// import 'package:friend_app/routes/routes.dart';
 import 'package:provider/provider.dart';
 
 void main() {

@@ -1,0 +1,65 @@
+import 'package:feme/widgets/transaction_card.dart';
+import 'package:flutter/material.dart';
+// import 'package:friend_app/widgets/transaction_card.dart';
+final List<TransactionCard> transactions = [
+  TransactionCard(
+    name: "Sarah Johnson",
+    phone: "+1 (555) 123-4567",
+    time: "Today, 2:30 PM",
+    coinText: "-32 coins",
+    duration: "5:24 min",
+    status: "Completed",
+    icon: Icons.call,
+    iconColor: Colors.green,
+    statusColor: Colors.green,
+    date: DateTime.now().subtract(const Duration(hours: 2)), // today
+  ),
+  TransactionCard(
+    name: "Mike Chen",
+    phone: "+1 (555) 987-6543",
+    time: "Today, 11:45 AM",
+    coinText: "-28 coins",
+    duration: "4:12 min",
+    status: "Completed",
+    icon: Icons.call,
+    iconColor: Colors.indigo,
+    statusColor: Colors.green,
+    date: DateTime.now().subtract(const Duration(hours: 4)), // today
+  ),
+  TransactionCard(
+    name: "Emma Wilson",
+    phone: "+1 (555) 456-7890",
+    time: "Yesterday, 4:15 PM",
+    coinText: "-5 coins",
+    duration: "0:43 min",
+    status: "Failed",
+    icon: Icons.call_end,
+    iconColor: Colors.red,
+    statusColor: Colors.red,
+    date: DateTime.now().subtract(const Duration(days: 1, hours: 1)),
+  ),
+  TransactionCard(
+    name: "David Rodriguez",
+    phone: "+1 (555) 321-0987",
+    time: "Yesterday, 10:20 AM",
+    coinText: "-45 coins",
+    duration: "7:18 min",
+    status: "Completed",
+    icon: Icons.call,
+    iconColor: Colors.green,
+    statusColor: Colors.green,
+    date: DateTime.now().subtract(const Duration(days: 1, hours: 6)),
+  ),
+  TransactionCard(
+    name: "Lisa Thompson",
+    phone: "+1 (555) 654-3210",
+    time: "2 days ago, 3:45 PM",
+    coinText: "-18 coins",
+    duration: "2:55 min",
+    status: "Partial",
+    icon: Icons.call,
+    iconColor: Colors.orange,
+    statusColor: Colors.orange,
+    date: DateTime.now().subtract(const Duration(days: 2, hours: 2)),
+  ),
+];

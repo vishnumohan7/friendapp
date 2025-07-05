@@ -1,7 +1,8 @@
+import 'package:feme/core/theme.dart';
+import 'package:feme/widgets/custom_text_field.dart';
+import 'package:feme/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
-import 'package:friend_app/core/theme.dart';
-import 'package:friend_app/widgets/custom_text_field.dart';
-import 'package:friend_app/widgets/primary_button.dart';
+
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
