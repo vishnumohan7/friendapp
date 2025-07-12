@@ -2,7 +2,6 @@ import 'package:feme/routes/routes.dart' as routes;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-
 class AuthProvider with ChangeNotifier {
   bool _isLoading = false;
   String? _error;
@@ -48,7 +47,7 @@ class AuthProvider with ChangeNotifier {
       // For now, just store the user type and gender
       _userType = userType;
       _gender = gender;
-      
+
       _isLoading = false;
       notifyListeners();
       return true;
@@ -59,43 +58,42 @@ class AuthProvider with ChangeNotifier {
       return false;
     }
   }
-  
 
-Future<bool> login({
-  required String username,
-  required String password,
-  required BuildContext context,
-}) async {
-  try {
-    _isLoading = true;
-    _error = null;
-    notifyListeners();
+  Future<bool> login({
+    required String username,
+    required String password,
+    required BuildContext context,
+  }) async {
+    try {
+      // _isLoading = true;
+      // _error = null;
+      // notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 2));
+      // await Future.delayed(const Duration(seconds: 2));
 
-    // Dummy logic to determine executive or customer
-    _isExecutiveLogin = username.toLowerCase().contains('executive');
+      // // Dummy logic to determine executive or customer
+      // _isExecutiveLogin = username.toLowerCase().contains('executive');
 
-    _isLoading = false;
-    notifyListeners();
+      // _isLoading = false;
+      // notifyListeners();
 
-    // Navigation
-    if (_isExecutiveLogin) {
-      Navigator.pushReplacementNamed(context, routes.AppRoutes.executiveDashboard);
-    } else {
-      Navigator.pushReplacementNamed(context, routes.AppRoutes.customerDashboard);
+      // Navigation
+      if (_isExecutiveLogin) {
+        Navigator.pushReplacementNamed(
+            context, routes.AppRoutes.executiveDashboard);
+      } else {
+        Navigator.pushReplacementNamed(
+            context, routes.AppRoutes.customerDashboard);
+      }
+
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false;
     }
-
-    return true;
-  } catch (e) {
-    _error = e.toString();
-    _isLoading = false;
-    notifyListeners();
-    return false;
   }
-}
-
-
 
   // Logout method
   void logout() {

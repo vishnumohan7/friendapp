@@ -1,12 +1,12 @@
 import 'package:feme/core/textstyles.dart';
 import 'package:feme/models/contact_model.dart';
 import 'package:feme/routes/routes.dart';
+import 'package:feme/screens/video_call/video_call_main.dart';
 import 'package:feme/widgets/bottom_navigation.dart';
 import 'package:feme/widgets/coin_sumary_card.dart';
 import 'package:feme/widgets/contact_card.dart';
 import 'package:feme/widgets/contact_list.dart';
 import 'package:flutter/material.dart';
-
 
 class CustomerDashboardScreen extends StatefulWidget {
   const CustomerDashboardScreen({super.key});
@@ -109,7 +109,13 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
                             isOnline: c.isOnline,
                             isFavorite: c.isFavorite,
                             onAudioCall: () {},
-                            onVideoCall: () {},
+                            onVideoCall: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const VideoCallPage()),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -128,7 +134,13 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
                             isOnline: c.isOnline,
                             isFavorite: c.isFavorite,
                             onAudioCall: () {},
-                            onVideoCall: () {},
+                            onVideoCall: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const VideoCallPage()),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -147,7 +159,13 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
                             isOnline: false,
                             isFavorite: c.isFavorite,
                             onAudioCall: () {},
-                            onVideoCall: () {},
+                            onVideoCall: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const VideoCallPage()),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -166,7 +184,13 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
                             isOnline: false,
                             isFavorite: c.isFavorite,
                             onAudioCall: () {},
-                            onVideoCall: () {},
+                            onVideoCall: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const VideoCallPage()),
+                              );
+                            },
                           ),
                         ),
                       ],

@@ -43,17 +43,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   'Welcome Back!',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textColor,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textColor,
+                      ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Sign in to continue',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppTheme.lightTextColor,
-                  ),
+                        color: AppTheme.lightTextColor,
+                      ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 48),
@@ -64,15 +64,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: Icons.email_outlined,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if (!RegExp(
-                      r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
-                    ).hasMatch(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
+                    //   if (value == null || value.isEmpty) {
+                    //     return 'Please enter your email';
+                    //   }
+                    //   if (!RegExp(
+                    //     r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
+                    //   ).hasMatch(value)) {
+                    //     return 'Please enter a valid email';
+                    //   }
+                    //   return null;
                   },
                 ),
                 const SizedBox(height: 16),
@@ -96,13 +96,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    }
-                    return null;
+                    // if (value == null || value.isEmpty) {
+                    //   return 'Please enter your password';
+                    // }
+                    // if (value.length < 6) {
+                    //   return 'Password must be at least 6 characters';
+                    // }
+                    // return null;
                   },
                 ),
                 const SizedBox(height: 8),
