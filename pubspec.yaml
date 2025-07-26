@@ -52,6 +52,7 @@ dependencies:
   firebase_core: ^2.27.0
   firebase_database: ^10.4.0
   firebase_messaging: ^14.7.0
+  http: ^1.4.0
   # flutter_local_notifications: ^19.3.0
 
 dev_dependencies:
@@ -90,9 +91,12 @@ flutter:
   assets:
     - assets/icon/
     - assets/icons/coins.png
+    - assets/icons/call.png
+    - assets/icons/clock.png
     - assets/images/img1.png
     - assets/images/img2.png
     - assets/images/img3.png
+    - assets/data/call_transactions.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

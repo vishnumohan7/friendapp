@@ -1,12 +1,10 @@
 import 'package:feme/core/theme.dart';
 import 'package:feme/providers/auth_provider.dart';
+import 'package:feme/providers/user_provider.dart';
 import 'package:feme/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-// import 'package:friend_app/core/theme.dart';
-// import 'package:friend_app/providers/auth_provider.dart';
-// import 'package:friend_app/routes/routes.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -16,7 +14,10 @@ Future<void> main() async {
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => AuthProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+      ],
       child: const MyApp(),
     ),
   );

@@ -1,35 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:feme/core/theme.dart';
 import 'package:feme/providers/auth_provider.dart';
-import 'package:feme/routes/routes.dart' as routes;
 import 'package:feme/widgets/custom_text_field.dart';
 import 'package:feme/widgets/primary_button.dart';
-import 'package:flutter/material.dart';
-
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _isLoading = false;
   bool _obscurePassword = true;
 
   @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -57,27 +47,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 48),
+
+                // Phone Field
                 CustomTextField(
-                  controller: _emailController,
-                  label: 'Email',
-                  hintText: 'Enter your email',
-                  keyboardType: TextInputType.emailAddress,
-                  prefixIcon: Icons.email_outlined,
+                  controller: authProvider.phoneController,
+                  label: 'Phone',
+                  hintText: 'Enter your phone number',
+                  keyboardType: TextInputType.phone,
+                  prefixIcon: Icons.phone,
                   validator: (value) {
-                    //   if (value == null || value.isEmpty) {
-                    //     return 'Please enter your email';
-                    //   }
-                    //   if (!RegExp(
-                    //     r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
-                    //   ).hasMatch(value)) {
-                    //     return 'Please enter a valid email';
-                    //   }
-                    //   return null;
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your phone number';
+                    }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 16),
+
+                // Password Field
                 CustomTextField(
-                  controller: _passwordController,
+                  controller: authProvider.passwordController,
                   label: 'Password',
                   hintText: 'Enter your password',
                   obscureText: _obscurePassword,
@@ -96,72 +85,76 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   validator: (value) {
-                    // if (value == null || value.isEmpty) {
-                    //   return 'Please enter your password';
-                    // }
-                    // if (value.length < 6) {
-                    //   return 'Password must be at least 6 characters';
-                    // }
-                    // return null;
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
                   },
                 ),
+
                 const SizedBox(height: 8),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        routes.AppRoutes.forgotPassword,
-                      );
+                      // Add forgot password route if needed
                     },
                     child: const Text('Forgot Password?'),
                   ),
                 ),
+
                 const SizedBox(height: 16),
-                Consumer<AuthProvider>(
-                  builder: (context, auth, child) => PrimaryButton(
-                    onPressed: _isLoading
-                        ? null
-                        : () async {
-                            if (_formKey.currentState!.validate()) {
-                              setState(() => _isLoading = true);
-                              // final authProvider = Provider.of<AuthProvider>(
-                              //   context,
-                              //   listen: false,
-                              // );
 
-                              final success = await auth.login(
-                                username: _emailController.text.trim(),
-                                password: _passwordController.text.trim(),
-                                context: context,
-                              );
+                // Login Button
+                PrimaryButton(
+                  onPressed: authProvider.isLoading
+                      ? null
+                      : () async {
+                          if (_formKey.currentState!.validate()) {
+                            final result = await authProvider.login(context);
 
-                              if (!success) {
+                            if (result['success'] == true) {
+                              final userType = result['userType'];
+                              // Save token to secure storage here if needed
+                              // await saveToken(result['token']);
+                              
+                              if (userType == 'customer') {
+                                Navigator.pushReplacementNamed(
+                                    context, '/customer-dashboard');
+                              } else if (userType == 'executive') {
+                                Navigator.pushReplacementNamed(
+                                    context, '/executive-dashboard');
+                              } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text(auth.error ?? 'Login failed'),
+                                    content: Text('Unknown user type: $userType'),
                                   ),
                                 );
                               }
-
-                              setState(() => _isLoading = false);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      authProvider.error ?? 'Login failed'),
+                                ),
+                              );
                             }
-                          },
-                    child: _isLoading
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
-                              ),
+                          }
+                        },
+                  child: authProvider.isLoading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
                             ),
-                          )
-                        : const Text('Sign In'),
-                  ),
+                          ),
+                        )
+                      : const Text('Sign In'),
                 ),
+
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Text("Don't have an account?"),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, routes.AppRoutes.signup);
+                        Navigator.pushNamed(context, '/signup');
                       },
                       child: const Text('Sign Up'),
                     ),

@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Sarah Johnson",
+    "phoneNumber": "+1 (555) 123-4567",
+    "coinsUsed": "-32 coins",
+    "duration": "5:24",
+    "time": "Today, 2:30 PM",
+    "status": "Completed",
+    "iconAssetPath": "assets/icons/call.png"
+  },
+  {
+    "name": "Mike Chen",
+    "phoneNumber": "+1 (555) 987-6543",
+    "coinsUsed": "-28 coins",
+    "duration": "4:12",
+    "time": "Today, 11:45 AM",
+    "status": "Completed",
+    "iconAssetPath": "assets/icons/call.png"
+  },
+  {
+    "name": "Emma Wilson",
+    "phoneNumber": "+1 (555) 456-7890",
+    "coinsUsed": "-5 coins",
+    "duration": "0:43",
+    "time": "Yesterday, 4:15 PM",
+    "status": "Failed",
+    "iconAssetPath": "assets/icons/call.png"
+  },
+  {
+    "name": "David Rodriguez",
+    "phoneNumber": "+1 (555) 321-0987",
+    "coinsUsed": "-45 coins",
+    "duration": "7:18",
+    "time": "Yesterday, 10:20 AM",
+    "status": "Completed",
+    "iconAssetPath": "assets/icons/call.png"
+  },
+  {
+    "name": "Lisa Thompson",
+    "phoneNumber": "+1 (555) 654-3210",
+    "coinsUsed": "-18 coins",
+    "duration": "2:56",
+    "time": "2 days ago, 3:45 PM",
+    "status": "Partial",
+    "iconAssetPath": "assets/icons/call.png"
+  }
+]

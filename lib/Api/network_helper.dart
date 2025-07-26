@@ -9,9 +9,9 @@ class NetworkHelper {
   NetworkHelper._internal() {
     dio = Dio(
       BaseOptions(
-        baseUrl: "https://your-api-url.com/api/",
-        connectTimeout: const Duration(seconds: 15),
-        receiveTimeout: const Duration(seconds: 15),
+        baseUrl: "https://demo.perutions.com/femeapi/api/",
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
@@ -19,13 +19,11 @@ class NetworkHelper {
       ),
     );
 
+    // Add interceptor to include Bearer token in all requests
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        // Attach token if needed
-        final token = _getToken();
-        if (token != null) {
-          options.headers['Authorization'] = 'Bearer $token';
-        }
+        // Add the Bearer token to the headers
+        options.headers['Authorization'] = 'Bearer 1592|aWtHmWCgQiup6w3P6tcfKC8kOXohr12AQUisPEEL626a2e61';
         return handler.next(options);
       },
       onError: (e, handler) {
@@ -39,6 +37,16 @@ class NetworkHelper {
   Future<Response> get(String endpoint, {Map<String, dynamic>? params}) async {
     try {
       return await dio.get(endpoint, queryParameters: params);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> postFormData(
+      String endpoint, Map<String, String> fields) async {
+    try {
+      FormData formData = FormData.fromMap(fields);
+      return await dio.post(endpoint, data: formData);
     } catch (e) {
       rethrow;
     }

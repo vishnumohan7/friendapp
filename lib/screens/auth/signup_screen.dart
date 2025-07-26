@@ -1,9 +1,10 @@
 import 'package:feme/core/theme.dart';
+import 'package:feme/providers/auth_provider.dart';
 import 'package:feme/routes/routes.dart';
 import 'package:feme/widgets/custom_text_field.dart';
 import 'package:feme/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -14,47 +15,37 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _phoneController = TextEditingController();
-  final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _isLoading = false;
   bool _obscurePassword = true;
-  String? _selectedGender;
-  String? _selectedUserType;
 
   final List<String> _genders = ['Male', 'Female', 'Other', 'Prefer not to say'];
-  final List<String> _userTypes = ['Customer', 'Executive'];
-
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    _usernameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  final List<String> _userTypes = ['customer', 'executive'];
 
   Future<void> _signup() async {
-    if (!_formKey.currentState!.validate()) return;
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    if (!_formKey.currentState!.validate() ||
+        authProvider.selectedUserType == null ||
+        authProvider.selectedGender == null) {
+      return;
+    }
 
-    setState(() => _isLoading = true);
-    
-    // Simulate API call
-    await Future.delayed(const Duration(seconds: 2));
-    
-    setState(() => _isLoading = false);
-    
-    if (mounted) {
+    final success = await authProvider.signUp(context);
+
+    if (success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Account created successfully!')),
       );
       Navigator.pop(context);
+    } else if (!success && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(authProvider.error ?? 'Signup failed')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -84,7 +75,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Title
                   const Text(
                     'Create Account',
                     style: TextStyle(
@@ -102,14 +92,14 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  // Form
+
                   Form(
                     key: _formKey,
                     child: Column(
                       children: [
                         // Phone Number
                         CustomTextField(
-                          controller: _phoneController,
+                          controller: authProvider.phoneController,
                           label: 'Phone Number',
                           hintText: 'Enter your phone number',
                           keyboardType: TextInputType.phone,
@@ -125,9 +115,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           },
                         ),
                         const SizedBox(height: 16),
+
                         // Username
                         CustomTextField(
-                          controller: _usernameController,
+                          controller: authProvider.usernameController,
                           label: 'Username',
                           hintText: 'Choose a username',
                           prefixIcon: Icons.person_outline,
@@ -142,9 +133,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           },
                         ),
                         const SizedBox(height: 16),
+
                         // Email
                         CustomTextField(
-                          controller: _emailController,
+                          controller: authProvider.emailController,
                           label: 'Email (Optional)',
                           hintText: 'Enter your email',
                           keyboardType: TextInputType.emailAddress,
@@ -159,9 +151,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           },
                         ),
                         const SizedBox(height: 16),
+
                         // Gender Dropdown
                         DropdownButtonFormField<String>(
-                          value: _selectedGender,
+                          value: authProvider.selectedGender,
                           decoration: InputDecoration(
                             labelText: 'Gender',
                             hintText: 'Select your gender',
@@ -180,11 +173,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               child: Text(gender),
                             );
                           }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedGender = value;
-                            });
-                          },
+                          onChanged: (value) => authProvider.setGender(value),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please select your gender';
@@ -193,6 +182,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           },
                         ),
                         const SizedBox(height: 16),
+
                         // User Type Radio Buttons
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,12 +209,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                   return RadioListTile<String>(
                                     title: Text(type),
                                     value: type,
-                                    groupValue: _selectedUserType,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedUserType = value;
-                                      });
-                                    },
+                                    groupValue: authProvider.selectedUserType,
+                                    onChanged: (value) => authProvider.setUserType(value),
                                     contentPadding: EdgeInsets.zero,
                                     dense: true,
                                     activeColor: AppTheme.primaryColor,
@@ -232,7 +218,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 }).toList(),
                               ),
                             ),
-                            if (_selectedUserType == null && _formKey.currentState?.validate() == true)
+                            if (authProvider.selectedUserType == null)
                               const Padding(
                                 padding: EdgeInsets.only(left: 16.0, top: 4),
                                 child: Text(
@@ -246,9 +232,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           ],
                         ),
                         const SizedBox(height: 16),
+
                         // Password
                         CustomTextField(
-                          controller: _passwordController,
+                          controller: authProvider.passwordController,
                           label: 'Password',
                           hintText: 'Create a password',
                           obscureText: _obscurePassword,
@@ -275,10 +262,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           },
                         ),
                         const SizedBox(height: 32),
+
                         // Sign Up Button
                         PrimaryButton(
-                          onPressed: _isLoading ? null : _signup,
-                          child: _isLoading
+                          onPressed: authProvider.isLoading ? null : _signup,
+                          child: authProvider.isLoading
                               ? const SizedBox(
                                   width: 24,
                                   height: 24,
@@ -296,6 +284,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                         ),
                         const SizedBox(height: 24),
+
                         // Already have an account? Sign In
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -306,8 +295,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, AppRoutes.login);
+                                Navigator.pushReplacementNamed(context, AppRoutes.login);
                               },
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
